@@ -184,6 +184,10 @@ class ElsevierPackage(object):
                 last_page = get_value_in_tag(included_item, "ce:last-page")
                 self._dois[doi] = (journal, issn, volume, issue, first_page, last_page, year)
 
+    def _filter_mathml(self, text):
+        return text.replace("mml:","")
+
+
     def _get_doi(self, xml):
         try:
             return get_value_in_tag(xml, "ce:doi")
@@ -192,19 +196,19 @@ class ElsevierPackage(object):
 
     def get_title(self, xml):
         try:
-            return get_value_in_tag(xml, "ce:title")
+            return _filter_mathml(get_value_in_tag(xml, "ce:title"))
         except Exception, err:
             print >> sys.stderr, "Can't find title"
 
     def get_abstract(self, xml):
         try:
-            return get_value_in_tag(xml.getElementsByTagName("ce:abstract-sec")[0], "ce:simple-para")
+            return _filter_mathml(get_value_in_tag(xml.getElementsByTagName("ce:abstract-sec")[0], "ce:simple-para"))
         except Exception, err:
             print >> sys.stderr, "Can't find abstract"
 
     def get_keywords(self, xml):
         try:
-            return [get_value_in_tag(keyword, "ce:text") for keyword in xml.getElementsByTagName("ce:keyword")]
+            return [_filter_mathml(get_value_in_tag(keyword, "ce:text")) for keyword in xml.getElementsByTagName("ce:keyword")]
         except Exception, err:
             print >> sys.stderr, "Can't find keywords"
 
