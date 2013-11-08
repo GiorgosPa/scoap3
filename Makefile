@@ -15,6 +15,7 @@ scoap3dtds_DATA = ja5_art501.zip ja5_art510.zip ja5_art520.zip si510.zip si520.z
 scoap3utils = scoap3utils.py
 contrast_out = contrast_out.py
 contrast_out_config = contrast_out_config.py
+contrast_out_utils = contrast_out_utils.py
 
 
 install:
@@ -23,6 +24,7 @@ install:
 	$(INSTALL) -t $(LIBDIR)/python/invenio $(scoap3utils)
 	$(INSTALL) -t $(LIBDIR)/python/invenio $(contrast_out)
 	$(INSTALL) -t $(LIBDIR)/python/invenio $(contrast_out_config)
+	$(INSTALL) -t $(LIBDIR)/python/invenio $(contrast_out_utils)
 	$(INSTALL) -t $(WWWDIR) robots.txt
 	$(INSTALL) -t $(WWWDIR)/img scoap3_logo.png favicon.ico invenio_scoap3.css
 
