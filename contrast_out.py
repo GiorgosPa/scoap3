@@ -18,7 +18,8 @@ from invenio.scoap3utils import (MD5Error,
                                  FileTypeError,
                                  progress_bar,
                                  check_pkgs_integrity)
-from invenio.contrast_out_utils import contrast_out_cmp
+from invenio.contrast_out_utils import (contrast_out_cmp,
+                                        find_package_name)
 from invenio.minidom_utils import (xml_to_text,
                                    get_value_in_tag)
 from invenio.errorlib import register_exception
@@ -240,7 +241,7 @@ class ContrastOutConnector(object):
         return self.found_articles
 
     def sort_results(self):
-        self.found_articles = sorted(self.found_articles, key=lambda x: [p_name for p_name in x['xml'].split('/') if "CERN" in p_name][0], cmp=contrast_out_cmp)
+        self.found_articles = sorted(self.found_articles, key=lambda x: find_package_name(x['xml']), cmp=contrast_out_cmp)
 
     def run(self):
         self.connect()
@@ -256,4 +257,3 @@ class ContrastOutConnector(object):
         self._check_md5()
         self._extract_packages()
         self._get_metadata_and_fulltex_dir()
-        print self.found_articles
